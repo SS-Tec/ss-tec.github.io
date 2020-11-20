@@ -1,8 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\assets\\img"
+    "\\assets",
+    "\\assets\\img",
+    "\\assets\\img\\products",
+    "\\Product"
   ],
-  "SelectedNode": "\\index.html",
+  "SelectedNode": "\\Product\\Walk-Through-Metal-Detector-With-Infrared-Thermometer.html",
   "PreviewInSolutionExplorer": false
 }
