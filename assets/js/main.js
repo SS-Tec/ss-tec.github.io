@@ -501,12 +501,10 @@
 		max: maxPrice,
 		values: [minPrice, maxPrice],
 		slide: function (event, ui) {
-			amount.val("$" + ui.values[0] + " - $" + ui.values[1]);
+			amount.val(ui.values[0] + " LKR - " + ui.values[1] + " LKR");
 		}
 	});
-	amount.val(" $" + rangeSlider.slider("values", 0) +
-		" - $" + rangeSlider.slider("values", 1)
-	);
+	amount.val(rangeSlider.slider("values", 0) + " LKR - " + rangeSlider.slider("values", 1) + " LKR");
 
 
 	// Checkout Page accordion
