@@ -27,7 +27,7 @@ request.onsuccess = function (event) {
 
 request.onupgradeneeded = function (event) {
     var db = event.target.result;
-    //var objectStore = db.createObjectStore("cart", { keyPath: "id" });
+    var objectStore = db.createObjectStore("cart", { keyPath: "id" });
 
 };
 var ispageCart = false;
