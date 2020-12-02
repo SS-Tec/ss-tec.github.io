@@ -12,7 +12,7 @@ function searchShop() {
     for (var i = 0; i < ele.length; i++) {
         var name = ele[i].getAttribute("data-name");
         var price = ele[i].getAttribute("data-price");
-        if (name.toLowerCase().includes(txt) && (price <= rangeSlider.slider("values", 1) && price >= rangeSlider.slider("values", 0))) {
+        if (name.toLowerCase().includes(txt.toLowerCase()) && (price <= rangeSlider.slider("values", 1) && price >= rangeSlider.slider("values", 0))) {
             ele[i].style.display = "block";
         } else {
             ele[i].style.display = "none";
