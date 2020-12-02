@@ -22,7 +22,7 @@ request.onerror = function (event) {
 request.onsuccess = function (event) {
     db = request.result;
     console.log("success: " + db);
-    cart_ReadAndDrawSideCart();
+    cart_ReadAndDraw();
 };
 
 request.onupgradeneeded = function (event) {
@@ -33,12 +33,14 @@ request.onupgradeneeded = function (event) {
 var ispageCart = false;
 var ispageCheckout = false;
 window.onload = function (s) {
-    ispageCart = document.title.toLowerCase().includes("cart");
-    ispageCheckout = document.title.toLowerCase().includes("checkout");
-    console.log("load");
-    cart_ReadAndDraw();
+    //ispageCart = document.title.toLowerCase().includes("cart");
+    //ispageCheckout = document.title.toLowerCase().includes("checkout");
+    //console.log("load");
+    //cart_ReadAndDraw();
 };
 function cart_ReadAndDraw() {
+    ispageCart = document.title.toLowerCase().includes("cart");
+    ispageCheckout = document.title.toLowerCase().includes("checkout");
     if (ispageCart) cart_ReadAndDrawCart();
     else if (ispageCheckout) cart_ReadAndDrawCheckoutCart();
     cart_ReadAndDrawSideCart();
