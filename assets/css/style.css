@@ -199,6 +199,10 @@ textarea {
     opacity: 1;
 }
 
+.auto-draw {
+    content-visibility: auto;
+}
+
 /* ----tab problem fix css ----*/
 .tab-content .tab-pane {
     display: block;
