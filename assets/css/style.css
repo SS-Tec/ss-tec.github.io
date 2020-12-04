@@ -2094,11 +2094,11 @@ textarea {
     height: 100%;
 }
 
-.search-box-offcanvas form {
+.search-box-offcanvas div {
     position: relative;
 }
 
-    .search-box-offcanvas form input {
+    .search-box-offcanvas div input {
         color: #666;
         font-size: 13px;
         width: 100%;
@@ -2108,7 +2108,7 @@ textarea {
         background-color: #f2f2f2;
     }
 
-    .search-box-offcanvas form .search-btn {
+    .search-box-offcanvas div .search-btn {
         top: 0;
         right: 0;
         width: 40px;
@@ -2119,7 +2119,7 @@ textarea {
         position: absolute;
     }
 
-        .search-box-offcanvas form .search-btn:hover {
+        .search-box-offcanvas div .search-btn:hover {
             color: #f60101;
         }
 
