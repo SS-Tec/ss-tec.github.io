@@ -238,6 +238,7 @@ function cart_Remove(id, draw) {
 // ================= Post ========================
 
 function OrderCart() {
+    if (isEmpty(CheckOutPostUrl)) return;
     if (isEmpty(captchares)) {
         $("#btnOrder").prop('disabled', true);
         alert("Please Check 'I'm not a robot'");
@@ -283,7 +284,7 @@ function OrderCart() {
         console.log("Order Adding");
         $.ajax({
             type: "POST",
-            url: "https://localhost:44314/api/order/1",
+            url: CheckOutPostUrl,
             dataType: "json",
             contentType: 'application/json',
             data: JSON.stringify(orderInfo),
@@ -303,6 +304,7 @@ function OrderCart() {
 }
 var captchares = "";
 function PostContact() {
+    if (isEmpty(ContactPostUrl)) return;
     if (isEmpty(captchares)) {
         $("#btnOrder").prop('disabled', true);
         alert("Please Check 'I'm not a robot'");
@@ -319,7 +321,7 @@ function PostContact() {
 
     $.ajax({
         type: "POST",
-        url: "https://localhost:44314/api/contact/1",
+        url: ContactPostUrl,
         dataType: "json",
         contentType: 'application/json',
         data: JSON.stringify(contact),
