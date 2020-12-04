@@ -302,8 +302,8 @@ function OrderCart() {
             });
     };
 }
-var captchares = "";
 function PostContact() {
+    console.log("Post Con");
     if (isEmpty(ContactPostUrl)) return;
     if (isEmpty(captchares)) {
         $("#btnOrder").prop('disabled', true);
@@ -311,12 +311,12 @@ function PostContact() {
         return;
     }
 
-    var contact = {
+    var contactInfo = {
         Name: $("#first_name").val(),
         Phone: $("#phone").val(),
         Email: $("#email").val(),
         Subject: $("#subject").val(),
-        Message: $("#msg").val(),
+        Message: $("#msg").val()
     }
 
     $.ajax({
@@ -324,7 +324,7 @@ function PostContact() {
         url: ContactPostUrl,
         dataType: "json",
         contentType: 'application/json',
-        data: JSON.stringify(contact),
+        data: JSON.stringify(contactInfo),
         success: function (msg) {
             if (msg) {
                 console.log("Contact Success");
@@ -340,7 +340,7 @@ function PostContact() {
 }
 
 // ================= Captcha ========================
-
+var captchares = "";
 var verifyCallback = function (response) {
     
     $("#btnOrder").prop('disabled', isEmpty(response));
