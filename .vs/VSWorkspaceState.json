@@ -2,9 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\assets",
-    "\\assets\\css",
-    "\\assets\\css\\vendor"
+    "\\assets\\js"
   ],
-  "SelectedNode": "\\cap.html",
+  "SelectedNode": "\\assets\\js\\handler.js",
   "PreviewInSolutionExplorer": false
 }
