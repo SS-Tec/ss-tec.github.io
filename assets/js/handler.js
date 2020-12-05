@@ -301,6 +301,7 @@ function OrderCart() {
                 console.log('res', res);
             });
         $('#sub-form')[0].reset();
+        $("#btnOrder").prop('disabled', true);
     };
 }
 function PostContact() {
@@ -339,6 +340,7 @@ function PostContact() {
             console.log('res', res);
         });
     $('#sub-form')[0].reset();
+    $("#btnOrder").prop('disabled', true);
 }
 
 // ================= Captcha ========================
