@@ -300,6 +300,7 @@ function OrderCart() {
             .done(function (res) {
                 console.log('res', res);
             });
+        $('#sub-form')[0].reset();
     };
 }
 function PostContact() {
@@ -337,6 +338,7 @@ function PostContact() {
         .done(function (res) {
             console.log('res', res);
         });
+    $('#sub-form')[0].reset();
 }
 
 // ================= Captcha ========================
