@@ -297,10 +297,10 @@
                                 <div class="sidebar-body">
                                     <ul class="shop-categories">
                                         <li><a href="shop.html?sch-category=all">All <span>(9)</span></a></li>
-                                        <li><a href="shop.html?sch-category=Scanners">Scanners <span>(3)</span></a></li>
-                                        <li><a href="shop.html?sch-category=Thermal">Thermal <span>(3)</span></a></li>
-                                        <li><a href="shop.html?sch-category=Access Control">Access Control <span>(2)</span></a></li>
-                                        <li><a href="shop.html?sch-category=Metal Detector">Metal Detector <span>(1)</span></a></li>
+                                        <li><a onclick="Navigate('shop.html', 'sch-category=Scanners')">Scanners <span>(3)</span></a></li>
+                                        <li><a onclick="Navigate('shop.html', 'sch-category=Thermal')">Thermal <span>(3)</span></a></li>
+                                        <li><a onclick="Navigate('shop.html', 'sch-category=Access Control')">Access Control <span>(2)</span></a></li>
+                                        <li><a onclick="Navigate('shop.html', 'sch-category=Metal Detector')">Metal Detector <span>(1)</span></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -342,20 +342,30 @@
                             <!-- shop product top wrap start -->
                             <div class="shop-top-bar">
                                 <div class="row align-items-center">
-                                    <div class="col-lg-7 col-md-6 order-2 order-md-1">
+                                    <div class="col-md-2 order-1 order-md-1">
                                         <div class="top-bar-left">
-                                            <div class="product-view-mode">
+                                        <center style="width:100%">
+                                            <div class="product-view-mode" style="    margin-right: 0px !important;">
                                                 <a class="active" href="#" data-target="grid-view" data-toggle="tooltip" title="Grid View"><i class="fa fa-th"></i></a>
                                                 <a href="#" data-target="list-view" data-toggle="tooltip" title="List View"><i class="fa fa-list"></i></a>
                                             </div>
-                                            <div class="product-amount">
-                                                <p id="txtinfo">Showing 1-9 of 9 results</p>
-                                            </div>
+                                        </center>
                                         </div>
                                     </div>
-                                    <div class="col-lg-5 col-md-6 order-1 order-md-2">
+                                    <div class="col-md-10 order-2 order-md-2">
                                         <div class="top-bar-right">
-                                            <div class="product-short">
+                                            <div class="page-count mr-2">
+                                                <p>Show : </p>
+                                                <select class="nice-select" id="ipp">
+                                                    <option value="6">6 Items</option>
+                                                    <option value="9">9 Items</option>
+                                                    <option value="12">12 Items</option>
+                                                    <option value="15">15 Items</option>
+                                                    <option value="21">21 Items</option>
+                                                    <option value="24">24 Items</option>
+                                                </select>
+                                            </div>
+                                            <div class="product-short mr-2">
                                                 <p>Sort By : </p>
                                                 <select class="nice-select" id="sortby" onchange="SortValChange()">
                                                     <option value="1">Default Ascending</option>
@@ -367,6 +377,13 @@
                                                 </select>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="col-md-12 mt-3 order-md-3">
+                                            <hr/>
+                                            <div class="product-amount text-center">
+                                                <p><strong id="txtinfo">Showing 1-9 of 9 results</strong></p>
+                                            </div>
+                                            <hr/>
                                     </div>
                                 </div>
                             </div>
@@ -1238,10 +1255,10 @@
                             <!-- product item list wrapper end -->
                             <!-- start pagination area -->
                             <div class="paginatoin-area text-center">
-                                <ul class="pagination-box">
-                                    <li><a class="previous disabled" href=""><i class="pe-7s-angle-left"></i></a></li>
+                                <ul class="pagination-box" id="pgenos">
+                                    <li><a class="previous" onclick="GotoPreviousPage()"><i class="pe-7s-angle-left"></i></a></li>
                                     <li class="active"><a href="">1</a></li>
-                                    <li><a class="next disabled" href=""><i class="pe-7s-angle-right"></i></a></li>
+                                    <li><a class="next"  onclick="GotoNextPage()"><i class="pe-7s-angle-right"></i></a></li>
                                 </ul>
                             </div>
                             <!-- end pagination area -->

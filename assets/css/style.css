@@ -5069,6 +5069,23 @@ blockquote {
         margin-right: 10px;
     }
 
+.top-bar-right .page-count {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+    .top-bar-right .page-count p {
+        margin-right: 10px;
+    }
+.page-count .nice-select {
+    width: 100px;
+}
 .nice-select {
     height: 36px;
     line-height: 34px;
@@ -5080,11 +5097,17 @@ blockquote {
     .nice-select {
         width: 170px;
     }
+    .page-count .nice-select {
+        width: 90px;
+    }
 }
 
 @media only screen and (max-width: 479.98px) {
     .nice-select {
-        width: 190px;
+        width: 150px;
+    }
+    .page-count .nice-select {
+        width: 80px;
     }
 }
 
