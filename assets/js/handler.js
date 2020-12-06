@@ -409,8 +409,10 @@ document.getElementById("schtxtmob").onkeyup = function (event) {
 
 function ICValChange() {
     var e = document.getElementById("ipp");
-    showitemcount = e.v;
-    DrawPgnos(ShowingItmCount, false);
+    if (showitemcount != e.value) {
+        showitemcount = e.value;
+        DrawPgnos(ShowingItmCount, false);
+    }
 }
 
 var showitemcount = 6;
@@ -418,17 +420,17 @@ var selPgno = 1;
 var ShowingItmCount = 0;
 function DrawPgnos(itc, rst = true) {
     ShowingItmCount = itc;
-    if (rst) selPgno = 1;
-    var c = 0;
-    var ele = document.getElementById("shop-container").getElementsByClassName("search-item-shop");
-    for (var i = 0; i < ele.length; i++) {
-        if (ele[i].style.display == 'block') {
-            c++;
-            if (c >= (showitemcount * (selPgno - 1)) && c <= (showitemcount * selPgno)) console.log('');
-            else ele[i].style.display = 'none';
-        }
-    }
-    setPageNos(itc);
+    //var c = 0;
+    //var ele = document.getElementById("shop-container").getElementsByClassName("search-item-shop");
+    //for (var i = 0; i < ele.length; i++) {
+    //    if (ele[i].style.display == 'block') {
+    //        c++;
+    //        if (c >= (showitemcount * (selPgno - 1)) && c <= (showitemcount * selPgno)) console.log('');
+    //        else ele[i].style.display = 'none';
+    //    }
+    //}
+    searchShop(rst);
+    // setPageNos(itc);
 }
 
 function setPageNos(itmcount) {
@@ -437,32 +439,37 @@ function setPageNos(itmcount) {
     var pgc = toInt((itmcount) / (showitemcount));
     console.log(pgc);
     var html = "";
-    html += '<li><a class="previous ' + (pgc <= 1 ? 'disabled' : '') + '" onclick="GotoPreviousPage()"><i class="pe-7s-angle-left"></i></a></li>';
+    html += '<li><a class="previous ' + (pgc <= 1 ? 'disabled' : '') + '" onclick="GotoPreviousPage()" id="prevb"><i class="pe-7s-angle-left"></i></a></li>';
     for (var i = 0; i < pgc; i++) {
         html += '<li class="' + ((i + 1) == selPgno ? 'active' : '') + '"><a onclick="SetPageNo(' + (i + 1) + ')">' + (i + 1) + '</a></li>'
     }
-    html += '<li><a class="next ' + (pgc <= 1 ? 'disabled' : '') + '" onclick="GotoNextPage()"><i class="pe-7s-angle-right"></i></a></li>'
+    html += '<li><a class="next ' + (pgc <= 1 ? 'disabled' : '') + '" onclick="GotoNextPage()" id="nxtb"><i class="pe-7s-angle-right"></i></a></li>'
     ele.innerHTML = html;
 }
 function SetPageNo(pagenum) {
+    if (pagenum == selPgno) return;
     if (pagenum == 0) pagenum = 1;
     var pgc = toInt((ShowingItmCount) / (showitemcount));
     if (pgc < pagenum) pagenum = pgc;
     selPgno = pagenum;
     console.log('SetPageNo - selected page', selPgno);
-    setPageNos(ShowingItmCount);
+    searchShop(false);
 }
 
 function GotoPreviousPage() {
+    var ele = document.getElementById('prevb');
+    if (ele.classList.contains('disabled')) return;
     var pgc = toInt((ShowingItmCount) / (showitemcount));
     if (selPgno > pgc) selPgno = 1;
     if ((selPgno - 1) >= 1) selPgno--;
     else selPgno = pgc;
     console.log('GotoPreviousPage - selected page', selPgno);
-    DrawPgnos(ShowingItmCount,false);
+    DrawPgnos(ShowingItmCount, false);
 }
 
 function GotoNextPage() {
+    var ele = document.getElementById('nxtb');
+    if (ele.classList.contains('disabled')) return;
     if (selPgno == 0) selPgno = 1;
     var pgc = toInt((ShowingItmCount) / (showitemcount));
     if (pgc >= (selPgno + 1)) selPgno++;
@@ -512,20 +519,23 @@ function searchFromPapa() {
     if (!isEmpty(maxp)) $(".price-range").slider("values", 1, maxp);
 }
 
-function searchShop() {
+function searchShop(rst = true) {
     if (ispageShop) {
-        selPgno = 1;
+        if (rst) selPgno = 1;
         var txt = document.getElementById("schtxt").value;
         if (isEmpty(txt)) txt = document.getElementById("schtxtmob").value
         var rangeSlider = $(".price-range");
         var ele = document.getElementById("shop-container").getElementsByClassName("search-item-shop");
         var rescount = 0;
+        var c = 0;
         for (var i = 0; i < shopItems.length; i++) {
             var name = ele[i].getAttribute("data-name");
             var price = ele[i].getAttribute("data-price");
             var section = ele[i].getAttribute("data-section");
             if (name.toLowerCase().includes(txt.toLowerCase()) && (price <= rangeSlider.slider("values", 1) && price >= rangeSlider.slider("values", 0)) && (isEmpty(schcat) || section.toLowerCase() == schcat.toLowerCase())) {
-                ele[i].style.display = "block";
+                c++;
+                if ((c > (showitemcount * (selPgno - 1)) && c <= (showitemcount * selPgno))) ele[i].style.display = "block";
+                else ele[i].style.display = "none";
             } else {
                 ele[i].style.display = "none";
                 rescount++;
@@ -539,7 +549,9 @@ function searchShop() {
             if (isEmpty(txt)) document.getElementById("txtinfo").innerText = "Showing Results For " + (isEmpty(schcat) ? "" : ("Category = '" + schcat + "' And ")) + "Price > " + rangeSlider.slider("values", 0) + "LKR And Price < " + rangeSlider.slider("values", 1);
             else document.getElementById("txtinfo").innerText = "Showing Results For '" + txt + "' And " + (isEmpty(schcat) ? "" : ("Category = '" + schcat + "' ")) + "' And Price > " + rangeSlider.slider("values", 0) + " And Price < " + rangeSlider.slider("values", 1) + "LKR";
         }
-        DrawPgnos(shopItems.length - rescount);
+        ShowingItmCount = (shopItems.length - rescount);
+        console.log('ded', ShowingItmCount);
+        setPageNos(ShowingItmCount);
     }
 }
 

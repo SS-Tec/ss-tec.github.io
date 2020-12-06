@@ -356,7 +356,7 @@
                                         <div class="top-bar-right">
                                             <div class="page-count mr-2">
                                                 <p>Show : </p>
-                                                <select class="nice-select" id="ipp">
+                                                <select class="nice-select" id="ipp" onchange="ICValChange()">
                                                     <option value="6">6 Items</option>
                                                     <option value="9">9 Items</option>
                                                     <option value="12">12 Items</option>
@@ -379,7 +379,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12 mt-3 order-md-3">
-                                            <hr/>
+                                            <hr class="mt-0"/>
                                             <div class="product-amount text-center">
                                                 <p><strong id="txtinfo">Showing 1-9 of 9 results</strong></p>
                                             </div>
@@ -1256,9 +1256,9 @@
                             <!-- start pagination area -->
                             <div class="paginatoin-area text-center">
                                 <ul class="pagination-box" id="pgenos">
-                                    <li><a class="previous" onclick="GotoPreviousPage()"><i class="pe-7s-angle-left"></i></a></li>
+                                    <li><a class="previous" onclick="GotoPreviousPage()" id="prevb"><i class="pe-7s-angle-left"></i></a></li>
                                     <li class="active"><a href="">1</a></li>
-                                    <li><a class="next"  onclick="GotoNextPage()"><i class="pe-7s-angle-right"></i></a></li>
+                                    <li><a class="next"  onclick="GotoNextPage()" id="ntxb"><i class="pe-7s-angle-right"></i></a></li>
                                 </ul>
                             </div>
                             <!-- end pagination area -->
