@@ -86,17 +86,21 @@
                                                     <li class="mega-title">
                                                         <a href=""><span style="color: #222222;font-size:16px;font-weight:600;text-transform:capitalize;">Safety</a></span>
                                                         <ul>
-                                                            <li><a href="">Item 01</a></li>
-                                                            <li><a href="">Item 02</a></li>
-                                                            <li><a href="">Item 03</a></li>
-                                                            <li><a href="">Item 04</a></li>
+                                                            <li><a href="shop.html?sch-category=Scanners">Scanners</a></li>
+                                                            <li><a href="shop.html?sch-category=Access%20Control">Access Controllers</a></li>
+                                                            <li><a href="shop.html?sch-category=Metal%20Detectors">Metal Detectors</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="mega-title">
+                                                        <a href=""><span style="color: #222222;font-size:16px;font-weight:600;text-transform:capitalize;">Sound</a></span>
+                                                        <ul>
+                                                            <li><a href="shop.html?sch-category=Amplifiers">Amplifiers</a></li>
+                                                            <li><a href="shop.html?sch-category=Speakers">Speakers</a></li>
                                                         </ul>
                                                     </li>
                                                     <li class="mega-title">
                                                         <a href=""><span style="color: #222222;font-size:16px;font-weight:600;text-transform:capitalize;">Other</a></span>
                                                         <ul>
-                                                            <li><a href="">Item 01</a></li>
-                                                            <li><a href="">Item 02</a></li>
                                                         </ul>
                                                     </li>
                                                 </ul>
@@ -207,17 +211,21 @@
                                         <li class="mega-title menu-item-has-children">
                                             <a href="">Safety</a>
                                             <ul class="dropdown">
-                                                            <li><a href="">Item 01</a></li>
-                                                            <li><a href="">Item 02</a></li>
-                                                            <li><a href="">Item 03</a></li>
-                                                            <li><a href="">Item 04</a></li>
+                                                            <li><a href="shop.html?sch-category=Scanners">Scanners</a></li>
+                                                            <li><a href="shop.html?sch-category=Access%20Control">Access Controllers</a></li>
+                                                            <li><a href="shop.html?sch-category=Metal%20Detectors">Metal Detectors</a></li>
+                                                        </ul>
+                                                    </li>
+                                        <li class="mega-title menu-item-has-children">
+                                            <a href="">Sound</a>
+                                            <ul class="dropdown">
+                                                            <li><a href="shop.html?sch-category=Amplifiers">Amplifiers</a></li>
+                                                            <li><a href="shop.html?sch-category=Speakers">Speakers</a></li>
                                                         </ul>
                                                     </li>
                                         <li class="mega-title menu-item-has-children">
                                             <a href="">Other</a>
                                             <ul class="dropdown">
-                                                            <li><a href="">Item 01</a></li>
-                                                            <li><a href="">Item 02</a></li>
                                                         </ul>
                                                     </li>
                                     </ul>
@@ -355,10 +363,10 @@
                                         <div class="quantity-cart-box d-flex align-items-center">
                                             <h6 class="option-title">qty:</h6>
                                             <div class="quantity">
-                                                <div class="pro-qty"><input type="text" value="1"></div>
+                                                <div class="pro-qty"><input type="text" value="1" id="qtyitem"></div>
                                             </div>
                                             <div class="action_link">
-                                                <a class="btn btn-cart2" onclick="cart_Set({ id: '4', name: 'Infrared Thermal Face Recogntion and Access Control System', price: 15000, qty: 1, img: 'assets/img/products/Thermometer-Forehead-Infrared-Thermal-Face-Recogntion-Time-Attendance-and-Access-Control-1.png', href:'Infrared-Thermal-Face-Recogntion-and-Access-Control-System.html' })">Add to cart</a>
+                                                <a class="btn btn-cart2" onclick="cart_Add({ id: '4', name: 'Infrared Thermal Face Recogntion and Access Control System', price: 15000, qty: 1, img: 'assets/img/products/Thermometer-Forehead-Infrared-Thermal-Face-Recogntion-Time-Attendance-and-Access-Control-1.png', href:'Infrared-Thermal-Face-Recogntion-and-Access-Control-System.html' },true,true)">Add to cart</a>
                                             </div>
                                         </div>
                                         <div class="like-icon">
@@ -438,7 +446,7 @@
                             <!-- product item start -->
 <div class="product-item">
     <figure class="product-thumb">
-        <a href="Temperature-Scanner-With-Face-Recognition.html">
+        <a >
             <img class="pri-img" src="assets/img/products/Temperature-Detection-&-Face-Recognition-1.png" alt="Temperature Scanner With Face Recognition For Sale, Sound And Safety Technologies, SST , S&ST , SSTechnologies Sri Lanka.">
             <img class="sec-img" src="assets/img/products/Temperature-Detection-&-Face-Recognition-2.png" alt="Temperature Scanner With Face Recognition For Sale, Sound And Safety Technologies, SST , S&ST , SSTechnologies Sri Lanka.">
         </a>
@@ -451,7 +459,7 @@
             </div>
         </div>
         <div class="cart-hover">
-            <button class="btn btn-cart" onclick="cart_Set({ id: '3', name: 'Temperature Scanner With Face Recognition', price: 8000.00, qty: 1, img: 'assets/img/products/Temperature-Detection-&-Face-Recognition-1.png', href:'Temperature-Scanner-With-Face-Recognition.html' })">add to cart</button>
+            <button class="btn btn-cart" onclick="cart_Add({ id: '3', name: 'Temperature Scanner With Face Recognition', price: 8000, qty: 1, img: 'assets/img/products/Temperature-Detection-&-Face-Recognition-1.png', href:'Temperature-Scanner-With-Face-Recognition.html' },true,true)">add to cart</button>
         </div>
     </figure>
     <div class="product-caption text-center">
@@ -472,29 +480,180 @@
                             <!-- product item start -->
 <div class="product-item">
     <figure class="product-thumb">
-        <a href="Walk-Through-Metal-Detector-With-Infrared-Thermometer.html">
-            <img class="pri-img" src="assets/img/products/Walk-Through-Metal-Detector-With-Infrared-Thermometer-1.png" alt="Walk Through Metal Detector With Infrared Thermometer For Sale, Sound And Safety Technologies, SST , S&ST , SSTechnologies Sri Lanka.">
-            <img class="sec-img" src="assets/img/products/Walk-Through-Metal-Detector-With-Infrared-Thermometer-3.png" alt="Walk Through Metal Detector With Infrared Thermometer For Sale, Sound And Safety Technologies, SST , S&ST , SSTechnologies Sri Lanka.">
+        <a >
+            <img class="pri-img" src="assets/img/products/Non-Contact-Temperature-Detective-Infrared-Digital-Camera-With-Ai-Face-Recognition-1.png" alt="Non Contact Temperature Detective Infrared Digital Camera With Ai Face Recognition For Sale, Sound And Safety Technologies, SST , S&ST , SSTechnologies Sri Lanka.">
+            <img class="sec-img" src="assets/img/products/Non-Contact-Temperature-Detective-Infrared-Digital-Camera-With-Ai-Face-Recognition-2.png" alt="Non Contact Temperature Detective Infrared Digital Camera With Ai Face Recognition For Sale, Sound And Safety Technologies, SST , S&ST , SSTechnologies Sri Lanka.">
         </a>
         <div class="product-badge">
-            <div class="product-label bg-secondary">
-                <span>5%</span>
+            <div class="product-label new">
+                <span>New</span>
             </div>
         </div>
         <div class="cart-hover">
-            <button class="btn btn-cart" onclick="cart_Set({ id: '5', name: 'Walk Through Metal Detector With Infrared Thermometer', price: 200000, qty: 1, img: 'assets/img/products/Walk-Through-Metal-Detector-With-Infrared-Thermometer-1.png', href:'Walk-Through-Metal-Detector-With-Infrared-Thermometer.html' })">add to cart</button>
+            <button class="btn btn-cart" onclick="cart_Add({ id: '1', name: 'Non Contact Temperature Detective Infrared Digital Camera', price: -1, qty: 1, img: 'assets/img/products/Non-Contact-Temperature-Detective-Infrared-Digital-Camera-With-Ai-Face-Recognition-1.png', href:'Non-Contact-Temperature-Detective-Infrared-Digital-Camera.html' },true,true)">add to cart</button>
         </div>
     </figure>
     <div class="product-caption text-center">
         <div class="product-identity">
-            <p class="manufacturer-name"><a href="Walk-Through-Metal-Detector-With-Infrared-Thermometer.html"><strong>Sound & Safety Technologies</strong></a></p>
+            <p class="manufacturer-name"><a href="Non-Contact-Temperature-Detective-Infrared-Digital-Camera.html"><strong>Sound & Safety Technologies</strong></a></p>
         </div>
         <h6 class="product-name">
-            <a href="Walk-Through-Metal-Detector-With-Infrared-Thermometer.html">Walk Through Metal Detector With Infrared Thermometer</a>
+            <a href="Non-Contact-Temperature-Detective-Infrared-Digital-Camera.html">Non Contact Temperature Detective Infrared Digital Camera</a>
         </h6>
         <div class="price-box">
-            <span class="price-regular">200,000 LKR</span>
-            <span class="price-old"><del>201,000 LKR</del></span>
+            <span class="price-regular">-1</span>
+        </div>
+    </div>
+</div>
+<!-- product item end -->
+
+                            <!-- product item start -->
+<div class="product-item">
+    <figure class="product-thumb">
+        <a >
+            <img class="pri-img" src="assets/img/products/Non-Contact-Temperature-Scanner-1.png" alt="Non Contact Temperature Scanner For Sale, Sound And Safety Technologies, SST , S&ST , SSTechnologies Sri Lanka.">
+            <img class="sec-img" src="assets/img/products/Non-Contact-Temperature-Scanner-2.png" alt="Non Contact Temperature Scanner For Sale, Sound And Safety Technologies, SST , S&ST , SSTechnologies Sri Lanka.">
+        </a>
+        <div class="product-badge">
+            <div class="product-label bg-primary">
+                <span>Sale</span>
+            </div>
+        </div>
+        <div class="cart-hover">
+            <button class="btn btn-cart" onclick="cart_Add({ id: '2', name: 'Non Contact Temperature Scanner', price: -1, qty: 1, img: 'assets/img/products/Non-Contact-Temperature-Scanner-1.png', href:'Non-Contact-Temperature-Scanner.html' },true,true)">add to cart</button>
+        </div>
+    </figure>
+    <div class="product-caption text-center">
+        <div class="product-identity">
+            <p class="manufacturer-name"><a href="Non-Contact-Temperature-Scanner.html"><strong>Sound & Safety Technologies</strong></a></p>
+        </div>
+        <h6 class="product-name">
+            <a href="Non-Contact-Temperature-Scanner.html">Non Contact Temperature Scanner</a>
+        </h6>
+        <div class="price-box">
+            <span class="price-regular">-1</span>
+        </div>
+    </div>
+</div>
+<!-- product item end -->
+
+                            <!-- product item start -->
+<div class="product-item">
+    <figure class="product-thumb">
+        <a >
+            <img class="pri-img" src="assets/img/products/Temperature-Detection-&-Face-Recognition-1-2.png" alt="Non-contact Face Recognition Device RFID Card Palm Wrist Temperature Measurement Thermometer For Sale Sound And Safety Technologies Sri Lanka.">
+            <img class="sec-img" src="assets/img/products/Temperature-Detection-&-Face-Recognition-1-1.png" alt="Non-contact Face Recognition Device RFID Card Palm Wrist Temperature Measurement Thermometer For Sale Sound And Safety Technologies Sri Lanka.">
+        </a>
+        <div class="product-badge">
+        </div>
+        <div class="cart-hover">
+            <button class="btn btn-cart" onclick="cart_Add({ id: '6', name: 'Non-contact Face Recognition Device RFID Card Palm Wrist Temperature Measurement Thermometer', price: 60000, qty: 1, img: 'assets/img/products/Temperature-Detection-&-Face-Recognition-1-2.png', href:'Non-contact-Face-Recognition-Device-RFID-Card-Palm-Wrist-Temperature-Measurement-Thermometer.html' },true,true)">add to cart</button>
+        </div>
+    </figure>
+    <div class="product-caption text-center">
+        <div class="product-identity">
+            <p class="manufacturer-name"><a href="Non-contact-Face-Recognition-Device-RFID-Card-Palm-Wrist-Temperature-Measurement-Thermometer.html"><strong>Sound & Safety Technologies</strong></a></p>
+        </div>
+        <h6 class="product-name">
+            <a href="Non-contact-Face-Recognition-Device-RFID-Card-Palm-Wrist-Temperature-Measurement-Thermometer.html">Non-contact Face Recognition Device RFID Card Palm Wrist Temperature Measurement Thermometer</a>
+        </h6>
+        <div class="price-box">
+            <span class="price-regular">60,000.00 LKR</span>
+        </div>
+    </div>
+</div>
+<!-- product item end -->
+
+                            <!-- product item start -->
+<div class="product-item">
+    <figure class="product-thumb">
+        <a >
+            <img class="pri-img" src="assets/img/products/Soap-Dispenser-With-Infrared-Thermometer-1.png" alt="Non Contact Soap Dispenser With Infrared Thermometer For Sale Sound And Safety Technologies (SSTechnologies) Sri Lanka.">
+            <img class="sec-img" src="assets/img/products/Soap-Dispenser-With-Infrared-Thermometer-3.png" alt="Non Contact Soap Dispenser With Infrared Thermometer For Sale Sound And Safety Technologies (SSTechnologies) Sri Lanka.">
+        </a>
+        <div class="product-badge">
+            <div class="product-label bg-success">
+                <span>Sale</span>
+            </div>
+        </div>
+        <div class="cart-hover">
+            <button class="btn btn-cart" onclick="cart_Add({ id: '7', name: 'Non Contact Soap Dispenser With Infrared Thermometer', price: 12000, qty: 1, img: 'assets/img/products/Soap-Dispenser-With-Infrared-Thermometer-1.png', href:'Non-Contact-Soap-Dispenser-With-Infrared-Thermometer.html' },true,true)">add to cart</button>
+        </div>
+    </figure>
+    <div class="product-caption text-center">
+        <div class="product-identity">
+            <p class="manufacturer-name"><a href="Non-Contact-Soap-Dispenser-With-Infrared-Thermometer.html"><strong>Sound & Safety Technologies</strong></a></p>
+        </div>
+        <h6 class="product-name">
+            <a href="Non-Contact-Soap-Dispenser-With-Infrared-Thermometer.html">Non Contact Soap Dispenser With Infrared Thermometer</a>
+        </h6>
+        <div class="price-box">
+            <span class="price-regular">12,000 LKR</span>
+            <span class="price-old"><del>15,000 LKR</del></span>
+        </div>
+    </div>
+</div>
+<!-- product item end -->
+
+                            <!-- product item start -->
+<div class="product-item">
+    <figure class="product-thumb">
+        <a >
+            <img class="pri-img" src="assets/img/products/Infrared-Thermometer-K3-Pro-1.png" alt="Body Temperature Measuring Instrument K3 PRO Infrared Forehead Thermometer For Sale SSTechnologies (SST) Sri Lanka.">
+            <img class="sec-img" src="assets/img/products/Infrared-Thermometer-K3-Pro-2.png" alt="Body Temperature Measuring Instrument K3 PRO Infrared Forehead Thermometer For Sale SSTechnologies (SST) Sri Lanka.">
+        </a>
+        <div class="product-badge">
+            <div class="product-label new">
+                <span>New</span>
+            </div>
+        </div>
+        <div class="cart-hover">
+            <button class="btn btn-cart" onclick="cart_Add({ id: '8', name: 'Infrared Thermometer K3 Pro', price: 16000, qty: 1, img: 'assets/img/products/Infrared-Thermometer-K3-Pro-1.png', href:'Infrared-Thermometer-K3-Pro.html' },true,true)">add to cart</button>
+        </div>
+    </figure>
+    <div class="product-caption text-center">
+        <div class="product-identity">
+            <p class="manufacturer-name"><a href="Infrared-Thermometer-K3-Pro.html"><strong>Sound & Safety Technologies</strong></a></p>
+        </div>
+        <h6 class="product-name">
+            <a href="Infrared-Thermometer-K3-Pro.html">Infrared Thermometer K3 Pro</a>
+        </h6>
+        <div class="price-box">
+            <span class="price-regular">16000 LKR</span>
+        </div>
+    </div>
+</div>
+<!-- product item end -->
+
+                            <!-- product item start -->
+<div class="product-item">
+    <figure class="product-thumb">
+        <a >
+            <img class="pri-img" src="assets/img/products/Infrared-Thermometer-K7-1.png" alt="Infrared Thermometer K7 For Sale SSTechnologies , SST, Sound And Safety Technologies Sri Lanka.">
+            <img class="sec-img" src="assets/img/products/Infrared-Thermometer-K7-2.png" alt="Infrared Thermometer K7 For Sale SSTechnologies , SST, Sound And Safety Technologies Sri Lanka.">
+        </a>
+        <div class="product-badge">
+            <div class="product-label new">
+                <span>New</span>
+            </div>
+            <div class="product-label bg-primary">
+                <span>Sale</span>
+            </div>
+        </div>
+        <div class="cart-hover">
+            <button class="btn btn-cart" onclick="cart_Add({ id: '9', name: 'Infrared Thermometer K7', price: 18000, qty: 1, img: 'assets/img/products/Infrared-Thermometer-K7-1.png', href:'Infrared-Thermometer-K7.html' },true,true)">add to cart</button>
+        </div>
+    </figure>
+    <div class="product-caption text-center">
+        <div class="product-identity">
+            <p class="manufacturer-name"><a href="Infrared-Thermometer-K7.html"><strong>Sound & Safety Technologies</strong></a></p>
+        </div>
+        <h6 class="product-name">
+            <a href="Infrared-Thermometer-K7.html">Infrared Thermometer K7</a>
+        </h6>
+        <div class="price-box">
+            <span class="price-regular">18,000 LKR</span>
+            <span class="price-old"><del>22,000 LKR</del></span>
         </div>
     </div>
 </div>
@@ -663,5 +822,27 @@
     <script src="assets/js/main.js"></script>
     <!-- Handler JS -->
     <script src="assets/js/handler.js"></script>
+    <script>
+    $('.pro-qty').prepend('<span class="dec qtybtn">-</span>');
+    $('.pro-qty').append('<span class="inc qtybtn">+</span>');
+    $('.qtybtn').on('click', function() {
+    var $button = $(this);
+    var oldValue = $button.parent().find('input').val();
+    if ($button.hasClass('inc')) {
+        var newVal = parseFloat(oldValue) + 1;
+    } else
+    {
+     if (oldValue > 0)
+     {
+        var newVal = parseFloat(oldValue) - 1;
+    }
+    else
+    {
+       newVal = 0;
+    }
+     }
+    $button.parent().find('input').val(newVal);
+     });
+    </script>
 </body>
 </html>

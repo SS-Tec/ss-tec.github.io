@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\assets",
+    "\\assets\\css",
+    "\\assets\\img\\products",
     "\\assets\\js"
   ],
-  "SelectedNode": "\\assets\\js\\handler.js",
   "PreviewInSolutionExplorer": false
 }

@@ -53,7 +53,7 @@ function cart_ReadAndDrawSideCart() {
         //} else
         if (cursor) {
             console.info("ID : " + cursor.value.id + " | Name : " + cursor.value.name + " | Price : " + cursor.value.price + " | Qty : " + cursor.value.qty);
-            tot.push(+cursor.value.price);
+            tot.push((+cursor.value.price * +cursor.value.qty));
             //console.log(tot);
             cart.innerHTML += ('<li class="minicart-item">' +
                 '<div class="minicart-thumb">' +
@@ -70,7 +70,7 @@ function cart_ReadAndDrawSideCart() {
                 '<span class="cart-price">' + (+cursor.value.price * +cursor.value.qty) + ' LKR</span>' +
                 ' </p>' +
                 '</div>' +
-                '<button class="minicart-remove" onclick="cart_Remove(' + "'" + cursor.value.id + "'" + ')"><i class="pe-7s-close"></i></button>' +
+                '<button class="minicart-remove" onclick="cart_Remove(' + "'" + cursor.value.id + "'" + ',false,true)"><i class="pe-7s-close"></i></button>' +
                 ' </li>');
 
             cursor.continue();
@@ -103,17 +103,21 @@ function cart_ReadAndDrawCart() {
         //} else
         if (cursor) {
             console.info("ID : " + cursor.value.id + " | Name : " + cursor.value.name + " | Price : " + cursor.value.price + " | Qty : " + cursor.value.qty);
-            tot.push(+cursor.value.price);
+            tot.push((+cursor.value.price * +cursor.value.qty));
             //console.log(tot);
             cart.innerHTML += ('<tr>' +
                 '<td class="pro-thumbnail"><a href="' + cursor.value.href + '"><img class="img-fluid" src="' + cursor.value.img + '" alt="cart item" /></a></td>' +
                 '<td class="pro-title"><a href="' + cursor.value.href + '">' + cursor.value.name + '</a></td>' +
                 '<td class="pro-price"><span>' + cursor.value.price + ' LKR</span></td>' +
                 '<td class="pro-quantity">' +
-                '<div class="pro-qty"><input type="text" value="' + cursor.value.qty + '" ></div > ' +
+                '<div class="pro-qty">' +
+                '<span class="dec qtybtn" onclick="DecQty(' + "'" + cursor.value.id + "'" + ')">-</span>' +
+                '<input type="text" value="' + cursor.value.qty + '" id="crtqty' + cursor.value.id + '">' +
+                '<span class="inc qtybtn" onclick="IncQty(' + "'" + cursor.value.id + "'" + ')">+</span>' +
+                '</div> ' +
                 '</td>' +
                 '<td class="pro-subtotal"><span>' + (+cursor.value.price * +cursor.value.qty) + ' LKR</span></td>' +
-                '<td class="pro-remove"><a onclick="cart_Remove(' + "'" + cursor.value.id + "'" + ')"><i class="fa fa-trash-o"></i></a></td>' +
+                '<td class="pro-remove"><a onclick="cart_Remove(' + "'" + cursor.value.id + "'" + ',false,true)"><i class="fa fa-trash-o"></i></a></td>' +
                 '</tr>');
 
             cursor.continue();
@@ -146,7 +150,7 @@ function cart_ReadAndDrawCheckoutCart() {
         //} else
         if (cursor) {
             console.info("ID : " + cursor.value.id + " | Name : " + cursor.value.name + " | Price : " + cursor.value.price + " | Qty : " + cursor.value.qty);
-            tot.push(+cursor.value.price);
+            tot.push((+cursor.value.price * +cursor.value.qty));
             //console.log(tot);
             cart.innerHTML += ('<tr>' +
                 '<td><a href=\"' + cursor.value.href + '\">' + cursor.value.name + '<strong> x ' + cursor.value.qty + '</strong></a></td>' +
@@ -169,6 +173,53 @@ function cart_ReadAndDrawCheckoutCart() {
 
 }
 
+function IncQty(id) {
+    var transaction = db.transaction(["cart"]);
+    var objectStore = transaction.objectStore("cart");
+    var request = objectStore.get(id);
+
+    request.onerror = function (event) {
+        console.error("failed to read db!");
+        return null;
+    };
+
+    request.onsuccess = function (event) {
+        if (request.result) {
+            if (!isEmpty(request.result)) {
+                request.result.qty++;
+                cart_Set(request.result, false);
+                $('#crtqty' + id).val(request.result.qty);
+            }
+        } else {
+            console.log("item not found! value : " + id);
+            return false;
+        }
+    };
+}
+function DecQty(id) {
+    var transaction = db.transaction(["cart"]);
+    var objectStore = transaction.objectStore("cart");
+    var request = objectStore.get(id);
+
+    request.onerror = function (event) {
+        console.error("failed to read db!");
+        return null;
+    };
+
+    request.onsuccess = function (event) {
+        if (request.result) {
+            if (!isEmpty(request.result) && request.result.qty > 1) {
+                request.result.qty--;
+                cart_Set(request.result, false);
+                $('#crtqty' + id).val(request.result.qty);
+            }
+        } else {
+            console.log("item not found! value : " + id);
+            return false;
+        }
+    };
+}
+
 function cart_Get(id) {
     var transaction = db.transaction(["cart"]);
     var objectStore = transaction.objectStore("cart");
@@ -189,22 +240,31 @@ function cart_Get(id) {
     };
 }
 
-function cart_Add(item) {
+function cart_Add(item, draw = true, alet = false) {
+    var txtqtyip = $('#qtyitem');
+    if (!isEmpty(txtqtyip)) item.qty = txtqtyip.val();
+    if (item.price == -1) {
+        alert("You Can't Add This Item To Cart. Please Contact Us And Ask For More Details About The Following Item!");
+        return;
+    }
+
     var request = db.transaction(["cart"], "readwrite").objectStore("cart").add(item);
 
     request.onsuccess = function (event) {
         console.log("item added! value : " + item);
-        cart_ReadAndDraw();
+        if (alet) alert("Item Added To Cart!");
+        if (draw) cart_ReadAndDraw();
         return true;
     };
 
     request.onerror = function (event) {
         console.warn("failed to add item! item already contains! value : " + item);
+        if (alet) alert("Item Already Added To Cart!");
         return false;
     }
 }
 
-function cart_Set(item) {
+function cart_Set(item, draw = true, alet = false) {
     var val = db.transaction(["cart"]).objectStore("cart").get(item.id);
 
     val.onerror = function (event) {
@@ -214,23 +274,25 @@ function cart_Set(item) {
 
     val.onsuccess = function (event) {
         if (val.result) {
-            cart_Remove(item.id, true);
+            cart_Remove(item.id, true, false);
         }
-        return cart_Add(item);
+        return cart_Add(item, draw, alet);
     };
 
 }
 
-function cart_Remove(id, draw) {
+function cart_Remove(id, draw, alet) {
     var request = db.transaction(["cart"], "readwrite").objectStore("cart").delete(id);
 
     request.onsuccess = function (event) {
         console.log("item removed! Key : " + id);
+        if (alet) alert("Item Removed From Cart!");
         if (!draw) cart_ReadAndDraw();
         return true;
     };
     request.onerror = function (event) {
         console.error("failed to remove item! Key : " + id);
+        if (alet) alert("Failed To Remove Item From Cart!");
         return false;
     }
 }
@@ -351,11 +413,12 @@ function Navigate(pge, q) {
     var sort = document.getElementById("sortby").value;
     var minp = $(".price-range").slider("values", 0);
     var maxp = $(".price-range").slider("values", 1);
+    var ipp = document.getElementById("ipp").value;
     if (isEmpty(txt)) {
         mobile = true;
         txt = document.getElementById("schtxtmob").value;
     }
-    window.location.href = pge + "?" + q + "&sch-txt=" + txt + "&min-price=" + minp + "&max-price=" + maxp + "&sort=" + sort + "&mobile=" + mobile;
+    window.location.href = pge + "?" + q + "&sch-txt=" + txt + "&min-price=" + minp + "&max-price=" + maxp + "&sort=" + sort + "&ipp=" + ipp + "&mobile=" + mobile;
 }
 
 // ================= Captcha ========================
@@ -371,12 +434,11 @@ var onloadCallback = function () {
 
 // ================= Search ========================
 
-var begintext = "";
 var schcat = "";
 var ispageShop = "";
 var frmq = false;
 window.onload = function (e) {
-    begintext = document.getElementById("txtinfo").innerText;
+
     ispageShop = document.title.toLowerCase().includes("shop");
     searchFromPapa();
     //var qusch = getParameterByName("sch-txt");
@@ -488,12 +550,14 @@ function searchFromPapa() {
     var maxp = getParameterByName("max-price");
     var text = getParameterByName("sch-txt");
     var sort = getParameterByName("sort");
+    var ipp = getParameterByName("ipp");
     var ismobile = getParameterByName("mobile");
 
     console.log("sec", section);
     console.log("mob", ismobile);
     console.log("text", text);
     console.log("sort", sort);
+    console.log("ipp", ipp);
     console.log("min", minp);
     console.log("max", maxp);
 
@@ -509,14 +573,16 @@ function searchFromPapa() {
     //document.getElementById("sortby").value = +sort;
     $('#sortby option[value=' + sort + ']').attr('selected', 'selected');
     $('#sortby').niceSelect('update');
+    $('#ipp option[value=' + ipp + ']').attr('selected', 'selected');
+    $('#ipp').niceSelect('update');
     if (!isEmpty(section)) {
         if (section.toLowerCase() == "all") section = "";
         //else searchShop();
     }
-    if (!isEmpty(sort)) SortValChange(true);
     schcat = section;
     if (!isEmpty(minp)) $(".price-range").slider("values", 0, minp);
     if (!isEmpty(maxp)) $(".price-range").slider("values", 1, maxp);
+    if (!isEmpty(sort)) SortValChange(true);
 }
 
 function searchShop(rst = true) {
@@ -532,7 +598,7 @@ function searchShop(rst = true) {
             var name = ele[i].getAttribute("data-name");
             var price = ele[i].getAttribute("data-price");
             var section = ele[i].getAttribute("data-section");
-            if (name.toLowerCase().includes(txt.toLowerCase()) && (price <= rangeSlider.slider("values", 1) && price >= rangeSlider.slider("values", 0)) && (isEmpty(schcat) || section.toLowerCase() == schcat.toLowerCase())) {
+            if (name.toLowerCase().includes(txt.toLowerCase()) && (price <= rangeSlider.slider("values", 1) && price >= rangeSlider.slider("values", 0) || price == -1) && (isEmpty(schcat) || section.toLowerCase() == schcat.toLowerCase())) {
                 c++;
                 if ((c > (showitemcount * (selPgno - 1)) && c <= (showitemcount * selPgno))) ele[i].style.display = "block";
                 else ele[i].style.display = "none";
@@ -541,13 +607,13 @@ function searchShop(rst = true) {
                 rescount++;
             }
         }
-        if (rescount == 0) document.getElementById("txtinfo").innerText = begintext;
+        if (rescount == 0) document.getElementById("txtinfo").innerText = 'Showing ' + ((showitemcount * (selPgno - 1)) + 1) + '-' + ((showitemcount * selPgno) + ((selPgno - 1) == 0 ? 0 : -1)) + ' of ' + (shopItems.length - rescount) + ' results';
         else if (rescount == shopItems.length) {
-            document.getElementById("txtinfo").innerText = "No Results Found For '" + txt + "' And " + (isEmpty(schcat) ? "" : ("Category = '" + schcat + "' And")) + "Price > " + rangeSlider.slider("values", 0) + " And Price < " + rangeSlider.slider("values", 1);
+            document.getElementById("txtinfo").innerText = "No Results Found For '" + txt + "' And " + (isEmpty(schcat) ? "" : ("Category = '" + schcat + "' And")) + "Price > " + rangeSlider.slider("values", 0) + " LKR And Price < " + rangeSlider.slider("values", 1) + " LKR";
         }
         else {
-            if (isEmpty(txt)) document.getElementById("txtinfo").innerText = "Showing Results For " + (isEmpty(schcat) ? "" : ("Category = '" + schcat + "' And ")) + "Price > " + rangeSlider.slider("values", 0) + "LKR And Price < " + rangeSlider.slider("values", 1);
-            else document.getElementById("txtinfo").innerText = "Showing Results For '" + txt + "' And " + (isEmpty(schcat) ? "" : ("Category = '" + schcat + "' ")) + "' And Price > " + rangeSlider.slider("values", 0) + " And Price < " + rangeSlider.slider("values", 1) + "LKR";
+            if (isEmpty(txt)) document.getElementById("txtinfo").innerText = "Showing Results " + ((showitemcount * (selPgno - 1)) + 1) + '-' + ((showitemcount * selPgno) + ((selPgno - 1) == 0 ? 0 : -1)) + " For " + (isEmpty(schcat) ? "" : ("Category = '" + schcat + "' And ")) + "Price > " + rangeSlider.slider("values", 0) + " LKR And Price < " + rangeSlider.slider("values", 1) + " LKR";
+            else document.getElementById("txtinfo").innerText = "Showing Results " + ((showitemcount * (selPgno - 1)) + 1) + '-' + ((showitemcount * selPgno) + ((selPgno - 1) == 0 ? 0 : -1)) + " For '" + txt + "' And " + (isEmpty(schcat) ? "" : ("Category = '" + schcat + "' ")) + "' And Price > " + rangeSlider.slider("values", 0) + " LKR And Price < " + rangeSlider.slider("values", 1) + " LKR";
         }
         ShowingItmCount = (shopItems.length - rescount);
         console.log('ded', ShowingItmCount);
@@ -607,8 +673,13 @@ function SortItems(col, acending) {
     }
     var shopwrap = document.getElementById("shop-container");
     shopwrap.innerHTML = "";
+    var undf = new Array();
     for (var i = 0; i < shopItems.length; i++) {
-        shopwrap.innerHTML += DrawShopItem(shopItems[i]);
+        if (shopItems[i].price != -1) { shopwrap.innerHTML += DrawShopItem(shopItems[i]); }
+        else undf.push(i);
+    }
+    for (var i = 0; i < undf.length; i++) {
+        shopwrap.innerHTML += DrawShopItem(shopItems[undf[i]]);
     }
 
     // console.log(Items);
@@ -626,96 +697,99 @@ function SortValChange(dont = false) {
 }
 
 function DrawShopItem(val) {
-
-    var tagsdes = "";
-    var tagsmob = "";
-    for (var i = 0; i < val.tags.legnth; i++) {
-        tagsdes += '<div class="product-label ' + val.tags[i].color + '"><span>' + val.tags[i].txt + '</span></div>';
+    var html = "";
+    html += '<div class="col-md-4 col-sm-6 search-item-shop" data-name="' + val.name + '" data-price="' + val.price + '" data-section="' + val.cat + '">';
+    html += '<!-- product item start -->';
+    html += '<div class="product-item">';
+    html += '<figure class="product-thumb">';
+    html += '<a href="' /*+ val.href*/ + '">';
+    html += '<img class="pri-img" src="' + val.priimg + '" alt="' + val.name + '">';
+    html += '<img class="sec-img" src="' + val.secimg + '" alt="' + val.name + '">';
+    html += '</a>';
+    html += '<div class="product-badge">';
+    for (var i = 0; i < val.tags.length; i++) {
+        html += '<div class="product-label ' + val.tags[i].color + '"><span>' + val.tags[i].txt + '</span></div>';
     }
-    for (var i = 0; i < val.tags.legnth; i++) {
-        tagsmob += '<div class="tag-label ' + val.tags[i].color + '"><span>' + val.tags[i].txt + '</span></div>';
+    html += '</div>';
+    html += '<div class="cart-hover">';
+    html += '<button class="btn btn-cart" onclick="cart_Add({ id: ' + "'" + val.id + "'" + ', name: ' + "'" + val.name + "'" + ', price: ' + val.price + ', qty: 1, img: ' + "'" + val.priimg + "'" + ', href:' + "'" + val.href + "'" + ' },true,true)">add to cart</button>';
+    html += '</div>';
+    html += '</figure>';
+    html += '<div class="product-caption text-center">';
+    html += '<div class="product-identity">';
+    html += '<p class="manufacturer-name"><a href="' + val.href + '"><strong>Sound &amp; Safety Technologies</strong></a></p>';
+    html += '</div>';
+    html += '<h6 class="product-name">';
+    html += '<a href="' + val.href + '">' + val.name + '</a>';
+    html += '</h6>';
+    html += '<div class="price-box">';
+    html += '<span class="price-regular">' + (val.price == -1 ? 'Contact us For Latest Prices' : (val.price + ' LKR')) + '</span>';
+    html += (val.oldprice == 0 ? '' : '<span class="price-old"><del>' + val.oldprice + ' LKR</del></span>');
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+    html += '<!-- product item end -->';
+    html += '<!-- product list item start -->';
+    html += '<div class="product-list-item shadow-sm">';
+    html += '<figure class="product-thumb">';
+    html += '<a href="' /*+ val.href*/ + '">';
+    html += '<img class="pri-img" src="' + val.priimg + '" alt="' + val.name + '">';
+    html += '<img class="sec-img" src="' + val.secimg + '" alt="' + val.name + '">';
+    html += '</a>';
+    html += '<div class="product-badge">';
+    for (var i = 0; i < val.tags.length; i++) {
+        html += '<div class="product-label ' + val.tags[i].color + '"><span>' + val.tags[i].txt + '</span></div>';
     }
-    var html = (
-        '<div class="col-md-4 col-sm-6 search-item-shop" data-name="' + val.name + '" data-price="' + val.price + '" data-section="' + val.cat + '">' +
-        '<!-- product item start -->' +
-        '<div class="product-item">' +
-        '<figure class="product-thumb">' +
-        '<a href="' + val.href + '">' +
-        '<img class="pri-img" src="' + val.priimg + '" alt="' + val.name + '">' +
-        '<img class="sec-img" src="' + val.secimg + '" alt="' + val.name + '">' +
-        '</a>' +
-        '<div class="product-badge">' + tagsdes + '</div>' +
-        '<div class="cart-hover">' +
-        '<button class="btn btn-cart" onclick="cart_Set({ id: ' + "'" + val.id + "'" + ', name: ' + "'" + val.name + "'" + ', price: ' + val.price + ', qty: 1, img: ' + "'" + val.priimg + "'" + ', href:' + "'" + val.href + "'" + ' })">add to cart</button>' +
-        '</div>' +
-        '</figure>' +
-        '<div class="product-caption text-center">' +
-        '<div class="product-identity">' +
-        '<p class="manufacturer-name"><a href="' + val.href + '"><strong>Sound &amp; Safety Technologies</strong></a></p>' +
-        '</div>' +
-        '<h6 class="product-name">' +
-        '<a href="' + val.href + '">' + val.name + '</a>' +
-        '</h6>' +
-        '<div class="price-box">' +
-        '<span class="price-regular">' + val.price + ' LKR</span>' +
-        '<span class="price-old"><del>' + val.oldprice + ' LKR</del></span>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '<!-- product item end -->' +
-        '<!-- product list item start -->' +
-        '<div class="product-list-item shadow-sm">' +
-        '<figure class="product-thumb">' +
-        '<a href="' + val.href + '">' +
-        '<img class="pri-img" src="' + val.priimg + '" alt="' + val.name + '">' +
-        '<img class="sec-img" src="' + val.secimg + '" alt="' + val.name + '">' +
-        '</a>' +
-        '<div class="product-badge">' + tagsdes + '</div>' +
-        '<div class="cart-hover">' +
-        '<button class="btn btn-cart" onclick="cart_Set({ id: ' + "'" + val.id + "'" + ', name: ' + "'" + val.name + "'" + ', price: ' + val.price + ', qty: 1, img: ' + "'" + val.priimg + "'" + ', href:' + "'" + val.href + "'" + ' })">add to cart</button>' +
-        '</div>' +
-        '</figure>' +
-        '<div class="product-content-list">' +
-        '<div class="product-identity">' +
-        '<p class="manufacturer-name"><a href="' + val.href + '"><strong>Sound &amp; Safety Technologies</strong></a></p>' +
-        '</div>' +
-        '<h6 class="product-name">' +
-        '<a href="' + val.href + '">' + val.name + '</a>' +
-        '</h6>' +
-        '<div class="price-box">' +
-        '<span class="price-regular">' + val.price + ' LKR</span>' +
-        '<span class="price-old"><del>' + val.oldprice + ' LKR</del></span>' +
-        '</div>' +
-        '<p>' + val.des + '</p>' +
-        '</div>' +
-        '</div>' +
-        '<!-- product list item end -->' +
-        '<!-- product list item start -->' +
-        '<div class="product-list-item-mobile shadow-sm">' +
-        '<div class="group-slide-item">' +
-        '<div class="group-item">' +
-        '<div class="group-item-thumb">' +
-        '<a href="Non-Contact-Temperature-Detective-Infrared-Digital-Camera.html" tabindex="0">' +
-        '<img src="' + val.priimg + '" alt="' + val.name + '" style="border-top-left-radius:5px;border-bottom-left-radius:5px;">' +
-        '</a>' +
-        '</div>' +
-        '<div class="group-item-desc">' +
-        '<h5 class="group-product-name">' +
-        '<a href="' + val.href + '" tabindex="0">' +
-        val.name +
-        '</a>' +
-        '</h5>' +
-        '<div class="price-box">' +
-        '<span class="price-regular">' + val.price + 'LKR</span>' +
-        '<span class="price-old"><del>' + val.oldprice + ' LKR</del></span>' +
-        '</div>' +
-        '<div class="product-badge">' + tagsmob + '</div>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '<!-- product list item mobile -->' +
-        '</div>');
+    html += '</div>';
+    html += '<div class="cart-hover">';
+    html += '<button class="btn btn-cart" onclick="cart_Add({ id: ' + "'" + val.id + "'" + ', name: ' + "'" + val.name + "'" + ', price: ' + val.price + ', qty: 1, img: ' + "'" + val.priimg + "'" + ', href:' + "'" + val.href + "'" + ' },true,true)">add to cart</button>';
+    html += '</div>';
+    html += '</figure>';
+    html += '<div class="product-content-list">';
+    html += '<div class="product-identity">';
+    html += '<p class="manufacturer-name"><a href="' + val.href + '"><strong>Sound &amp; Safety Technologies</strong></a></p>';
+    html += '</div>';
+    html += '<h6 class="product-name">';
+    html += '<a href="' + val.href + '">' + val.name + '</a>';
+    html += '</h6>';
+    html += '<div class="price-box">';
+    html += '<span class="price-regular">' + (val.price == -1 ? 'Contact us For Latest Prices' : (val.price + ' LKR')) + ' LKR</span>';
+    html += (val.oldprice == 0 ? '' : '<span class="price-old"><del>' + val.oldprice + ' LKR</del></span>');
+    html += '</div>';
+    html += '<p>' + val.des + '</p>';
+    html += '</div>';
+    html += '</div>';
+    html += '<!-- product list item end -->';
+    html += '<!-- product list item start -->';
+    html += '<div class="product-list-item-mobile shadow-sm">';
+    html += '<div class="group-slide-item">';
+    html += '<div class="group-item">';
+    html += '<div class="group-item-thumb">';
+    html += '<a href="Non-Contact-Temperature-Detective-Infrared-Digital-Camera.html" tabindex="0">';
+    html += '<img src="' + val.priimg + '" alt="' + val.name + '" style="border-top-left-radius:5px;border-bottom-left-radius:5px;">';
+    html += '</a>';
+    html += '</div>';
+    html += '<div class="group-item-desc">';
+    html += '<h5 class="group-product-name">';
+    html += '<a href="' + val.href + '" tabindex="0">';
+    html += val.name;
+    html += '</a>';
+    html += '</h5>';
+    html += '<div class="price-box">';
+    html += '<span class="price-regular">' + (val.price == -1 ? 'Contact us For Latest Prices' : (val.price + ' LKR')) + 'LKR</span>';
+    html += (val.oldprice == 0 ? '' : '<span class="price-old"><del>' + val.oldprice + ' LKR</del></span>');
+    html += '</div>';
+    html += '<div class="product-badge">'
+    for (var i = 0; i < val.tags.length; i++) {
+        html += '<div class="tag-label ' + val.tags[i].color + '"><span>' + val.tags[i].txt + '</span></div>';
+    }
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+    html += '<!-- product list item mobile -->';
+    html += '</div>'
     return html;
 }
 
